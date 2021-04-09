@@ -1,13 +1,13 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, redirect, render_template, request, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flask_mongoengine.wtf import model_form
 
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 from .models import User
 
@@ -18,13 +18,13 @@ UserForm = model_form(User, field_args={'password': {'password': True}})
 def register():
     form = UserForm(request.form)
     if request.method == 'POST':
-        existing_user = User.objects(username=form.username.data).first()
+        existing_user = User.objects(user_id=form.user_id.data).first()
         if existing_user is None:
             hashpass = generate_password_hash(form.password.data)
-            User(username=form.username.data,password=hashpass).save()
+            User(user_id=form.user_id.data,password=hashpass).save()
             return redirect(url_for('auth.login'))
         else:
-            flash('Already registered username')
+            flash('Already registered ID')
 
     return render_template('auth/register.html')
 
@@ -32,13 +32,12 @@ def register():
 def login():
     form = UserForm(request.form)
     if request.method == 'POST':
-        user = User.objects(username=form.username.data).first()
+        user = User.objects(user_id=form.user_id.data).first()
         if user:
                 if check_password_hash(user['password'], form.password.data):
                     login_user(user)
-                    flash('Logged in successfully.')
                     return redirect(url_for('index'))
-        flash('Invalid username or password')
+        flash('Invalid ID or password')
 
     return render_template('auth/login.html')
 
@@ -47,3 +46,9 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@bp.route('/unregister', methods = ['GET'])
+@login_required
+def unregister():
+    User.objects(user_id = current_user.user_id).first().delete()
+    return redirect(url_for('blog.index'))
