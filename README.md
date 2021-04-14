@@ -2,12 +2,12 @@ Simple Blog
 ===========
 Tech Stack Used: FLASK, MongoDB, HTML, CSS
 
-#1. Description
+# 1. Description
 This project was created by referring to the Flask tutorial documentation on the Flask official site(https://flask.palletsprojects.com/).
 I used mongoDB instead of sqlite, and implemented the login/logout function through flask_login library instead of session and g.
 Also, I added unregister function.
 
-#2. How to use
+# 2. How to use
 You can download my project through the command.
 '''
 https://github.com/ehgmsdk20/Flask_with_MongoDB.git
