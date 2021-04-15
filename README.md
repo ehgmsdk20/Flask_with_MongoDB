@@ -1,7 +1,7 @@
 Simple Blog
 ===========
-Tech Stack Used: FLASK, MongoDB, HTML, CSS
-prerequisite: MongoDB, Python
+Tech Stack Used: FLASK, MongoDB, HTML, CSS     
+Prerequisite: MongoDB, Python
 
 # 1. Description
 This project was created by referring to the Flask tutorial documentation on the Flask official site(https://flask.palletsprojects.com/).   
